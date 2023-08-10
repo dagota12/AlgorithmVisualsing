@@ -129,7 +129,7 @@ class Cell{
 function rc2i(r,c,rows,cols){
   if(r<0 || c<0 || r>=rows || c >= cols)
       return -1;
-  return r*rows + c
+  return r*cols + c
 }
 function i2rc(i,rows,cols){
   return [
@@ -161,7 +161,7 @@ class Grid{
      for(let j=0;j<this.cols;j++){
       let elem = document.createElement("div")
       elem.classList.add("cell")
-   //   elem.innerText=`${i},${j}`
+     // elem.innerText=`${i},${j}`
       this.gridElem.appendChild(elem)
       let cell = new Cell(elem,i,j)
       this.cells.push(cell)
@@ -176,9 +176,10 @@ class Grid{
     stack.push(this.current)
     let i=0
   while(this.current || stack.length > 0){
+
       ++i
    //if(i>1000) break
-    await sleep(1)
+    await sleep(10)
  
     //if(stack[0])console.log(stack[0].visited)
     
@@ -206,10 +207,18 @@ class Grid{
           neighbour.elem.style.borderLeft = "none"
           this.current.elem.style.borderRight = "none"
       }
-      this.current.elem.style.background = 'hsla(200,100%,50%,70)'
+      for(let k=0;k< this.cells.length;k++){
+        if(!this.cells[k].visited || this.cells[k] == neighbour) continue;
+        if(this.cells[k]=== this.current){
+            this.cells[k].elem.style.background = "red"
+        }else{
+            
+      this.cells[k].elem.style.background = 'hsla(200,100%,50%,70)'
+        }
+      }
     }else{
      this.current = stack.pop()
-      if(this.current)this.current.elem.style.background = 'hsla(200,100%,50%,70)'
+      if(this.current)this.current.elem.style.background = 'purple'
      continue
     }
      this.current = neighbour 
@@ -228,7 +237,7 @@ class Grid{
 }
 //sleep
 async function sleep(ms){
- console.log(`sleeping for ${ms}ms...`)
+// console.log(`sleeping for ${ms}ms...`)
  return(new Promise(resolve=> setTimeout(resolve,ms)))
 }
 let grid = new Grid()
