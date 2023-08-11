@@ -22,45 +22,46 @@
 body{
   flex-direction: column;
   justify-content: center;
-  background:red;
+  background:linear-gradient(45deg,#555,#333);
   width: 100%;
   min-height: 100vh;
   padding: 1rem;
 }
 .wrapper{
   flex-direction: column;
-  width: 100%;
-  max-width: 720px;
+  justify-content: space-between;
+  min-width: 100%;
+  max-width: 1720px;
   height: 100%;
   max-height: 500px;
-  background-color: blue;
-  padding: 1rem 0 2rem 0;
+  background: linear-gradient(120deg,#3E2E3B,#362A2A);
+  color: #fff;
+  padding: 1rem 0 0rem 0;
 }
 .bars{
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 90%;
+  /* max-width: 1000px; */
   /* gap: .2rem; */
-  background: grey;
+  background: linear-gradient(160deg,#D5374B,##000000);
 }
 .bar{
   position: relative;
   align-self: flex-end;
   --height:10;
-  width: 30px;
+  min-width: 3px;
   /* width: fit-content; */
   min-height: calc(var(--height) * 1px);
-  background: yellow;
+  background: linear-gradient(to  top,#eee,#ff0);
+  transition: all .2s ease;
 }
 </style>
 </head>
 <body class="flex">
  <div class="wrapper flex">
-     <h1>merge sort</h1>
+     <h1>Quick sort</h1>
   <div class="bars flex">
-     <div class="bar" style="--height:129">1</div>
-     <div class="bar" style="--height:80">2</div>
-     <div class="bar" style="--height:160">3</div>
   </div>
   <!-- <div class="controls">
      <button id="rand" onclick="doBars()">random</button>
@@ -69,36 +70,95 @@ body{
 </body>
 <script type="text/javascript" charset="utf-8">
 let array = [4,5,8,7,6,1,2,9,3]
+array = randomArr(array,100)
+let nodes = []
+function randomArr(array,n,min = 30,max = 100){
+   array = []
+  //console.log('arr',array)
+  for(let i=0;i<n;i++){
+      let rand = Math.floor(Math.random()*(max-min + 1) + min)
+      array.push(rand)
+  }
+  return array
+}
+function initNodes(array){
+  let nodes=[]
+let wrapper = document.querySelector(".bars")
+  wrapper.innerHTML = ''
+  for(let i=0;i<array.length;i++){
+     let elem = document.createElement("div")
+     elem.classList.add("bar")
+     elem.style.setProperty("--height",array[i])
+     nodes.push(elem)
+     wrapper.appendChild(elem)
+  }
+  return nodes
+}
+nodes = initNodes(array)
+//console.log(nodes)
+async function updateNodes(nodes,array){
 
+  for(let i=0;i<array.length;++i){
+      nodes[i].style.setProperty("--height",array[i])
+  }
+}
 
 async function quickSort(array,l,r){
+  //console.log(array.slice(l,r+1))
+  //await sleep(1000)
   if(l>=r){
       return
   }
+  
   let idx = await partision(array,l,r)
   
+  //console.log('left')
   await quickSort(array,l,idx-1)
+ // console.log('right')
   await quickSort(array,idx+1,r)
   return
 }
 
 async function partision(array,l,r){
+
+  await sleep(100)
   parIdx = l
   pivot = array[r]
   
   for(let i=l;i<r;i++){
+     
      if(array[i] < pivot){
+        await sleep(100)
         await swap(array,i,parIdx)
         parIdx++;
+  for(let j=0;j<nodes.length;j++){
+
+    if(j<l || j>r && j != parIdx){
+      nodes[j].style.background = "#fff"
+        
+    }else{
+       // console.log(nodes[j])
+    
+    if(j == parIdx){
+    nodes[j].style.background = "red"
+
+    }else{
+      nodes[j].style.background = "lightgreen"
+    }
+    
+    }
+  }
+      await updateNodes(nodes,array)
      }
   }
+  nodes[parIdx].style.background="red"
   await swap(array,parIdx,r)
   return parIdx
 }
 
-console.log("before: ",array.slice())
+//console.log("before: ",array.slice())
 quickSort(array,0,array.length - 1).then((dat)=>{
-console.log("after: ",array.slice())
+//console.log("after: ",array.slice())
     
 })
 //console.log(array.slice())
@@ -113,7 +173,7 @@ function swapH(nodes,a,b){
   array[b] = temp;
 }
 async function sleep(ms){
-  console.log(`sleeping for ${ms}...`)
+ // console.log(`sleeping for ${ms}...`)
   return new Promise(resolve => {
       setTimeout(resolve,ms)
   })
