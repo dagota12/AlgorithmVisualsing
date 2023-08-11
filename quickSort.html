@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+<style type="text/css" media="all">
+*{
+  margin: 0;
+  user-select: none;
+  padding: 0;
+  box-sizing: border-box;
+}
+.flex{
+  display: flex;
+  align-items: center;
+}
+.green{
+    background: green !important;
+}
+body{
+  flex-direction: column;
+  justify-content: center;
+  background:red;
+  width: 100%;
+  min-height: 100vh;
+  padding: 1rem;
+}
+.wrapper{
+  flex-direction: column;
+  width: 100%;
+  max-width: 720px;
+  height: 100%;
+  max-height: 500px;
+  background-color: blue;
+  padding: 1rem 0 2rem 0;
+}
+.bars{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* gap: .2rem; */
+  background: grey;
+}
+.bar{
+  position: relative;
+  align-self: flex-end;
+  --height:10;
+  width: 30px;
+  /* width: fit-content; */
+  min-height: calc(var(--height) * 1px);
+  background: yellow;
+}
+</style>
+</head>
+<body class="flex">
+ <div class="wrapper flex">
+     <h1>merge sort</h1>
+  <div class="bars flex">
+     <div class="bar" style="--height:129">1</div>
+     <div class="bar" style="--height:80">2</div>
+     <div class="bar" style="--height:160">3</div>
+  </div>
+  <!-- <div class="controls">
+     <button id="rand" onclick="doBars()">random</button>
+  </div> -->
+ </div>
+</body>
+<script type="text/javascript" charset="utf-8">
+let array = [4,5,8,7,6,1,2,9,3]
+
+
+async function quickSort(array,l,r){
+  if(l>=r){
+      return
+  }
+  let idx = await partision(array,l,r)
+  
+  await quickSort(array,l,idx-1)
+  await quickSort(array,idx+1,r)
+  return
+}
+
+async function partision(array,l,r){
+  parIdx = l
+  pivot = array[r]
+  
+  for(let i=l;i<r;i++){
+     if(array[i] < pivot){
+        await swap(array,i,parIdx)
+        parIdx++;
+     }
+  }
+  await swap(array,parIdx,r)
+  return parIdx
+}
+
+console.log("before: ",array.slice())
+quickSort(array,0,array.length - 1).then((dat)=>{
+console.log("after: ",array.slice())
+    
+})
+//console.log(array.slice())
+async function swap(array,a,b){
+  let temp = array[a];
+  array[a] = array[b];
+  array[b] = temp;
+}
+function swapH(nodes,a,b){
+  let temp = array[a];
+  array[a] = array[b];
+  array[b] = temp;
+}
+async function sleep(ms){
+  console.log(`sleeping for ${ms}...`)
+  return new Promise(resolve => {
+      setTimeout(resolve,ms)
+  })
+}
+</script>
+
+</html>
