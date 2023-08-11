@@ -45,33 +45,7 @@ body{
 </head>
 
 <body class="flex">
- <div id="maze">
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
-   <div class="cell"></div>
- </div>
+ <div id="maze"></div>
 </body>
 <script defer type="text/javascript" charset="utf-8">
 
@@ -192,24 +166,26 @@ class Grid{
       neighbour.visited = true
       stack.push(neighbour);
       if(this.current.x - neighbour.x==-1){
-          this.current.elem.style.borderBottom = "none"
-          neighbour.elem.style.borderTop = "none"
+          this.current.walls[2] = false
+             neighbour.walls[0] = false
       }
       if(this.current.x - neighbour.x== 1){
-          this.current.elem.style.borderTop = "none"
-          neighbour.elem.style.borderBottom = "none"
+          this.current.walls[0] = false
+             neighbour.walls[2] = false
       }
       if(this.current.y - neighbour.y == 1){
-          this.current.elem.style.borderLeft = "none"
-          neighbour.elem.style.borderRight = "none"
+          this.current.walls[3] = false
+             neighbour.walls[1] = false
       }
       if(this.current.y - neighbour.y == -1){
-          neighbour.elem.style.borderLeft = "none"
-          this.current.elem.style.borderRight = "none"
+         this.current.walls[1] = false
+            neighbour.walls[3] = false
       }
+      this.current.checkWalls()
+      neighbour.checkWalls()
       for(let k=0;k< this.cells.length;k++){
         if(!this.cells[k].visited || this.cells[k] == neighbour) continue;
-        if(this.cells[k]=== this.current){
+        if(this.cells[k] === this.current){
             this.cells[k].elem.style.background = "red"
         }else{
             
