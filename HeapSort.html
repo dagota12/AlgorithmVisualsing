@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Heap-Sort</title>
+</head>
+<style type="text/css" media="all">
+*{
+  margin: 0;
+  user-select: none;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+}
+.flex{
+  display: flex;
+  align-items: center;
+}
+.green{
+    background: green !important;
+}
+body{
+  flex-direction: column;
+  justify-content: center;
+  background:linear-gradient(45deg,#555,#333);
+  width: 100%;
+  
+  min-height: 100vh;
+  padding: 1rem;
+}
+.wrapper{
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 100%;
+  /* max-width: 1720px; */
+  height: 100%;
+  max-height: 500px;
+  background: linear-gradient(120deg,#3E2E3B,#362A2A);
+  color: #fff;
+  padding: 1rem 0 0rem 0;
+}
+.bars{
+  position: relative;
+  width: 100%;
+  min-height: 90%;
+  /* max-width: 1000px; */
+  /* gap: .2rem; */
+  background: linear-gradient(160deg,#333,#222);
+}
+.bar{
+  position: relative;
+  align-self: flex-end;
+  --height:10;
+  min-width: 1px;
+  /* width: fit-content; */
+  min-height: calc(var(--height) * 1px);
+  background: lightgreen;
+  transition: all 90ms ease;
+}
+</style>
+<body class="flex">
+ <div class="wrapper flex">
+     <h1>Heap sort</h1>
+  <div class="bars flex">
+  </div>
+ </div>
+</body>
+<script type="text/javascript" charset="utf-8">
+let array = [5,8,2,6,7,8,9];
+
+
+function heapify(array,N,i){
+
+let l = i * 2 + 1; 
+let r = i * 2 + 2;
+
+let largest = i;
+
+if(l < N && array[l] > array[largest]){
+    largest = l
+}
+if(r < N && array[r] > array[largest]){
+    largest = r
+}
+if(largest != i){
+  swap(array,i,largest)
+//  heapify(array,N-1,largest)
+}
+}
+console.log("before:",array.slice())
+heapify(array,array.length,0)
+console.log("after:",array.slice())
+
+
+function swap(array,a,b){
+  let temp = array[a];
+  array[a] = array[b];
+  array[b] = temp;
+}
+function swapH(nodes,a,b){
+  let temp = array[a];
+  array[a] = array[b];
+  array[b] = temp;
+}
+async function sleep(ms){
+ // console.log(`sleeping for ${ms}...`)
+  return new Promise(resolve => {
+      setTimeout(resolve,ms)
+  })
+}
+</script>
+</html>
