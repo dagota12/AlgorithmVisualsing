@@ -69,10 +69,19 @@ body{
  </div>
 </body>
 <script type="text/javascript" charset="utf-8">
-let array = [5,8,2,6,7,8,9];
+let array = [5,8,12,6,7,8,9];
 
-
-function heapify(array,N,i){
+array = randomArr(10,0,100)
+function randomArr(n,min = 30,max = 100){
+   let array = []
+  //console.log('arr',array)
+  for(let i=0;i<n;i++){
+      let rand = Math.floor(Math.random()*(max-min + 1) + min)
+      array.push(rand)
+  }
+  return array
+}
+async function heapify(array,N,i){
 
 let l = i * 2 + 1; 
 let r = i * 2 + 2;
@@ -85,16 +94,36 @@ if(l < N && array[l] > array[largest]){
 if(r < N && array[r] > array[largest]){
     largest = r
 }
+ await sleep(300)
+console.log("curr: ",array[i],"left:",array[l],"right:",array[r])
 if(largest != i){
   swap(array,i,largest)
-//  heapify(array,N-1,largest)
+console.log("inern:",array.slice())
+  await heapify(array,N-1,largest)
 }
+
+}
+//console.log("before:",array.slice())
+///heapify(array,array.length,0).then((dst)=>{
+//console.log("after:",array.slice())
+    
+//})
+async function heapSort(array,N){
+  //randomize
+  for(let i = Math.floor(N/2)-1;i>=0;i--){
+     await heapify(array,N,i)
+  }
+  console.log("====looping===")
+  for(let i=N-1;i > 0;i--){
+     swap(array,0,i)
+     await heapify(array,i,0)
+  }
 }
 console.log("before:",array.slice())
-heapify(array,array.length,0)
+heapSort(array,array.length).then((dst)=>{
 console.log("after:",array.slice())
-
-
+    
+});
 function swap(array,a,b){
   let temp = array[a];
   array[a] = array[b];
